@@ -1,32 +1,26 @@
-#include <catch2/catch_test_macros.hpp>
-#include <iostream>
-#include <string>
-#include <vector>
+#include "primes.hpp"
 
-using namespace std::literals;
-
-TEST_CASE("is_prime")
+namespace MyMath
 {
-	// uncomment lines below 
-	using namespace MyMath;
-	
-	REQUIRE(is_prime(2));
-	REQUIRE(is_prime(3));
-	REQUIRE_FALSE(is_prime(4));
-	REQUIRE(is_prime(5));
-	REQUIRE_FALSE(is_prime(6));
-	REQUIRE(is_prime(13));
-	REQUIRE_FALSE(is_prime(14));
-	REQUIRE(is_prime(59));
-	REQUIRE(is_prime(997));
-}
+    bool is_prime(uintmax_t number)
+    {
+        if (number < 2)
+            return false;
 
-// TODO
+        for (uintmax_t i = 2; i * i <= number; i++)
+            if (number % i == 0)
+                return false;
+        return true;
+    }
 
-TEST_CASE("find all primes in range [2;n]")
-{
-	// uncomment lines below 
-	
-	REQUIRE(primes(10) == std::vector{ 2, 3, 5, 7 });
-	REQUIRE(primes(20) == std::vector{2, 3, 5, 7, 11, 13, 17, 19});
-}
+    std::vector<uintmax_t> primes(uintmax_t max_range)
+    {
+        std::vector<uintmax_t> prime_numbers;
+
+        for (int j = 2; j <= max_range; j++)
+            if (MyMath::is_prime(j))
+                prime_numbers.push_back(j);
+
+        return prime_numbers;
+    }
+} // namespace MyMath
