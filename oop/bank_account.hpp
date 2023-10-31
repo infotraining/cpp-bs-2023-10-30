@@ -46,7 +46,7 @@ namespace Banking
             interest_rate_ = interest_rate;
         }
 
-        BankAccount(uint32_t id, const std::string& owner, double balance);
+        BankAccount(uint32_t id, const std::string& owner, double balance = 0.0);
 
         uint32_t id() const
         {

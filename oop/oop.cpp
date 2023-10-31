@@ -108,14 +108,21 @@ TEST_CASE("operator ==")
 
 struct Person
 {
-	std::string name = "unknown";
-	int age = 18;
+	std::string name;
+	int age;
+
+	Person() : name("unknown"), age(18) // default constructor 
+	{}
+
+	Person(const std::string& name) : name(name), age(18)
+	{
+	}
 };
 
 TEST_CASE("Person")
 {
-	Person p{"Jan"};
+	Person p;
 
-	CHECK(p.name == "Jan");
+	CHECK(p.name == "unknown");
 	CHECK(p.age == 18);
 }
