@@ -1,11 +1,74 @@
 #ifndef BANK_ACCOUNT_HPP
 #define BANK_ACCOUNT_HPP
 
+#include <cassert>
+#include <iostream>
+#include <string>
+#include <vector>
+
 namespace Banking
 {
+    enum class TransactionType : char { withdraw = 'W',
+        deposit = 'D' };
+
+    struct Transaction
+    {
+        uint32_t id;
+        TransactionType type;
+        double amount;
+    };
+
     class BankAccount
     {
-        // TODO
+    private:
+        const uint32_t id_;
+        std::string owner_;
+        double balance_;
+        std::vector<Transaction> history_;
+
+    public:
+        BankAccount(uint32_t id, const std::string& owner, double balance);
+
+        uint32_t id() const
+        {
+            return id_;
+        }
+
+        std::string owner() const
+        {
+            return this->owner_;
+        }
+
+        void set_owner(const std::string& new_owner);
+
+        double balance() const
+        {
+            return balance_;
+        }
+
+        void deposit(double amount)
+        {
+            assert(amount > 0);
+            balance_ += amount;
+            history_.push_back(Transaction{id_, TransactionType::deposit, amount});
+        }
+
+        void withdraw(double amount)
+        {
+            assert(amount > 0);
+            balance_ -= amount;
+            history_.push_back(Transaction{id_, TransactionType::withdraw, amount});
+        }
+
+        void print() const
+        {
+            std::cout << "ID: " << id_ << "; Owner: " << owner_ << "; Balance: " << balance_ << ";\n";
+        }
+
+        std::vector<Transaction> transactions() const
+        {
+            return history_;
+        }
     };
 } // namespace Banking
 
