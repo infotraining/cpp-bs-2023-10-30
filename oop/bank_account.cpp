@@ -2,6 +2,8 @@
 
 namespace Banking
 {
+    // double BankAccount::interest_rate_ = 0.0;
+
     BankAccount::BankAccount(uint32_t id, const std::string& owner, double balance)
         : id_{id}
         , owner_{owner}

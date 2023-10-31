@@ -67,7 +67,7 @@ TEST_CASE("BankAccount - using account")
     account.print();
 }
 
-TEST_CASE("BankAccount - Transactions")
+TEST_CASE("BankAccount - transactions")
 {
     BankAccount account{1, "AN", 1000.0};
 
@@ -86,6 +86,17 @@ TEST_CASE("BankAccount - Transactions")
 	std::cout << account << "\n";
 }
 
+TEST_CASE("BankAccount - interests")
+{
+	BankAccount::set_interest_rate(0.1);
+
+	BankAccount account{1, "AN", 1000.0};
+
+	account.pay_interest(365);
+
+	CHECK(account.balance() == 1100.0);
+}
+
 TEST_CASE("operator ==")
 {
 	Transaction t1{1, TransactionType::deposit, 100.0};
@@ -93,4 +104,18 @@ TEST_CASE("operator ==")
 
 	CHECK(t1 == t2);
 	CHECK(t1 != Transaction{2, TransactionType::deposit, 200.0});
+}
+
+struct Person
+{
+	std::string name = "unknown";
+	int age = 18;
+};
+
+TEST_CASE("Person")
+{
+	Person p{"Jan"};
+
+	CHECK(p.name == "Jan");
+	CHECK(p.age == 18);
 }

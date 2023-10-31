@@ -38,7 +38,14 @@ namespace Banking
         double balance_;
         std::vector<Transaction> history_;
 
+        inline static double interest_rate_ = 0.05;
+
     public:
+        static void set_interest_rate(double interest_rate)
+        {
+            interest_rate_ = interest_rate;
+        }
+
         BankAccount(uint32_t id, const std::string& owner, double balance);
 
         uint32_t id() const
@@ -70,6 +77,12 @@ namespace Banking
             assert(amount > 0);
             balance_ -= amount;
             history_.push_back(Transaction{id_, TransactionType::withdraw, amount});
+        }
+
+        void pay_interest(uint32_t days)
+        {
+            double interest = balance_ * interest_rate_*  (days / 365.0);
+            balance_ += interest;
         }
 
         void print() const
