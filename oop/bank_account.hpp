@@ -16,7 +16,19 @@ namespace Banking
         uint32_t id;
         TransactionType type;
         double amount;
+
+        bool operator==(const Transaction& other) const = default; // C++20
     };
+
+    // inline bool operator==(const Transaction& t1, const Transaction& t2)
+    // {
+    //     return t1.id == t2.id && t1.type == t2.type && t1.amount == t2.amount;
+    // }
+
+    // inline bool operator!=(const Transaction& t1, const Transaction& t2)
+    // {
+    //     return !(t1 == t2);
+    // }
 
     class BankAccount
     {

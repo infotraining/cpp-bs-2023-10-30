@@ -57,31 +57,31 @@ TEST_CASE("BankAccount - using account")
         CHECK(account.balance() == 1100.0);
     }
 
-	SECTION("withdraw")
-	{
-		account.withdraw(100.0);
+    SECTION("withdraw")
+    {
+        account.withdraw(100.0);
 
-		CHECK(account.balance() == 900.0);
-	}
+        CHECK(account.balance() == 900.0);
+    }
 
-	account.print();
+    account.print();
 }
 
 TEST_CASE("BankAccount - Transactions")
 {
-	BankAccount account{1, "AN", 1000.0};
-	
-	account.deposit(100.0);
-	account.deposit(200.0);
-	account.withdraw(150.0);
+    BankAccount account{1, "AN", 1000.0};
 
-	auto history = account.transactions();
+    account.deposit(100.0);
+    account.deposit(200.0);
+    account.withdraw(150.0);
 
-	CHECK(history == std::vector{ 
-		Transaction{1, TransactionType::deposit, 100.0},
-		Transaction{1, TransactionType::deposit, 200.0},
-		Transaction{1, TransactionType::withdraw, 150.0}
-	});	
+    auto history = account.transactions();
+
+    CHECK(history == std::vector{
+    	Transaction{1, TransactionType::deposit, 100.0},
+    	Transaction{1, TransactionType::deposit, 200.0},
+    	Transaction{1, TransactionType::withdraw, 150.0}
+    });
 }
 
 TEST_CASE("operator ==")
@@ -90,4 +90,5 @@ TEST_CASE("operator ==")
 	Transaction t2{1, TransactionType::deposit, 100.0};
 
 	CHECK(t1 == t2);
+	CHECK(t1 != Transaction{2, TransactionType::deposit, 200.0});
 }
