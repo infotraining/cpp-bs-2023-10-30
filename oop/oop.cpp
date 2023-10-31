@@ -75,13 +75,15 @@ TEST_CASE("BankAccount - Transactions")
     account.deposit(200.0);
     account.withdraw(150.0);
 
-    auto history = account.transactions();
+    const auto& history = account.transactions();
 
     CHECK(history == std::vector{
     	Transaction{1, TransactionType::deposit, 100.0},
     	Transaction{1, TransactionType::deposit, 200.0},
     	Transaction{1, TransactionType::withdraw, 150.0}
     });
+
+	std::cout << account << "\n";
 }
 
 TEST_CASE("operator ==")

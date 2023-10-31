@@ -1,4 +1,5 @@
 #include <catch2/catch_test_macros.hpp>
+#include <iostream>
 
 namespace Operators
 {
@@ -12,7 +13,25 @@ namespace Operators
                 : value(v)
             { }
 
+            Number& operator++() // pre-incrementation
+            {
+                ++value;
+                return *this;
+            }
+
+            Number operator++(int) // post-incrementation
+            {
+                Number old{*this};
+                ++value;
+                return old;
+            }
+
             bool operator==(const Number& n) const = default; // C++20
+
+            friend std::ostream& operator<<(std::ostream& out, const Number& n)
+            {
+                return out << "Number{" << n.value << "}";
+            }
         };
 
         Number operator+(Number a, Number b)
@@ -99,17 +118,44 @@ TEST_CASE("overloading operators")
     CHECK(InsideClass::Number{6} + 2 == InsideClass::Number{8});
 }
 
+TEST_CASE("operators ++ and --")
+{
+    using namespace Operators;
+
+    Number n{10};
+
+    SECTION("pre-incrementation")
+    {
+        CHECK(++n == Number{11});
+    }
+
+    SECTION("post-incrementation")
+    {
+        CHECK(n++ == Number{10});
+        CHECK(n == Number{11});
+    }
+}
+
+TEST_CASE("operator << - streams")
+{
+    using namespace Operators;
+
+    Number n{10};
+
+    std::cout << n << "\n";
+}
+
 namespace A
 {
     namespace B
     {
         namespace C
         {
-            void foo() {}
-        }
-    } // namespace B    
+            void foo()
+            { }
+        } // namespace C
+    }     // namespace B
 } // namespace A
-
 
 TEST_CASE("nested namespaces")
 {

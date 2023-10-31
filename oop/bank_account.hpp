@@ -2,9 +2,9 @@
 #define BANK_ACCOUNT_HPP
 
 #include <cassert>
-#include <iostream>
 #include <string>
 #include <vector>
+#include <iostream>
 
 namespace Banking
 {
@@ -77,9 +77,16 @@ namespace Banking
             std::cout << "ID: " << id_ << "; Owner: " << owner_ << "; Balance: " << balance_ << ";\n";
         }
 
-        std::vector<Transaction> transactions() const
+        const std::vector<Transaction>& transactions() const
         {
             return history_;
+        }
+
+        friend std::ostream& operator<<(std::ostream& out, const BankAccount& account)
+        {
+            return out << "BankAccount{ID: "  << account.id_ 
+                       << "; Owner: " << account.owner_ 
+                       << "; Balance: " << account.balance_ << "}";
         }
     };
 } // namespace Banking
