@@ -28,6 +28,11 @@ namespace Training
             , items_{new int[size_]}
         {
             std::copy(lst.begin(), lst.end(), items_);
+
+            std::cout << "Vector({ ";
+            for(const auto& item : *this)
+                std::cout << item << " ";
+            std::cout << "})\n";
         }
 
         // copy constructor
@@ -36,6 +41,11 @@ namespace Training
             , items_{new int[source.size()]}
         {
             std::copy(source.begin(), source.end(), items_);
+
+            std::cout << "Vector(cc: { ";
+            for(const auto& item : *this)
+                std::cout << item << " ";
+            std::cout << "})\n";
         }
 
         // copy assignment
@@ -50,6 +60,34 @@ namespace Training
                 delete[] items_;       // release old array
                 items_ = items_temp;   // assign new array
                 size_ = source.size(); // assign new size
+            }
+
+            return *this;
+        }
+
+        // move-constructor - C++11
+        Vector(Vector&& source)
+            : size_{source.size()}, items_{source.items_}
+        {
+            source.size_ = 0;
+            source.items_ = nullptr;
+
+            std::cout << "Vector(mv: { ";
+            for(const auto& item : *this)
+                std::cout << item << " ";
+            std::cout << "})\n";
+        }
+
+        // move-assignment - C++11
+        Vector& operator=(Vector&& source)
+        {
+            if (this != &source)
+            {
+                size_ = source.size_;
+                items_ = source.items_;
+
+                source.size_ = 0;
+                source.items_ = nullptr;
             }
 
             return *this;

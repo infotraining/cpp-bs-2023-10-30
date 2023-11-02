@@ -70,3 +70,107 @@ TEST_CASE("vector - copy")
         vec = vec; // self-assignment
     }
 }
+
+TEST_CASE("vector - move")
+{
+    Vector vec = {1, 2, 3, 4, 5};
+
+    SECTION("move constructor")
+    {
+        Vector target = std::move(vec); // move-constructor
+
+        CHECK(vec.size() == 0);
+        CHECK(target == Vector{1, 2, 3, 4, 5});
+    }
+
+    SECTION("move assignment")
+    {
+        Vector temp = {100, 101};
+
+        vec = std::move(temp); // move-assignment
+
+        CHECK(temp.size() == 0);
+        CHECK(vec == Vector{100, 101});
+    }
+}
+
+std::string full_name(const std::string& fn, const std::string& ln)
+{
+    return fn + " " + ln;
+}
+
+TEST_CASE("lvalue-ref vs. rvalue-ref")
+{
+    std::string str = "text";
+
+    SECTION("lvalue-ref - C++98")
+    {
+        std::string& lv_ref = str;
+        const std::string& name = full_name("Jan", "Kowalski");
+        std::cout << name << "\n";
+        //name[0] = 'P';
+    }
+
+    SECTION("rvalue-ref - C++11")
+    {
+        //std::string&& rv_ref = str; // ERROR
+
+        std::string&& name = full_name("Jan", "Kowalski");
+        name[0] = 'P';
+        std::cout << name << "\n";
+    }
+}
+
+void foo(const Vector& v)
+{
+    std::vector<Vector> data;
+
+    data.push_back(v); // copy
+}
+
+void foo(Vector&& v)
+{
+    std::vector<Vector> data;
+
+    data.push_back(std::move(v)); // move
+}
+
+TEST_CASE("using const& and &&")
+{
+    SECTION("copy")
+    {
+        Vector v{1, 2, 3};
+        foo(v);
+    }
+
+    SECTION("move")
+    {
+        Vector v{1, 2, 3};
+
+        Vector temp{55, 66};
+        v = std::move(temp); // move-assignment
+        CHECK(temp.size() == 0);
+
+        foo(std::move(v));
+        CHECK(v.size() == 0);
+    }
+}
+
+///////////////////////////////////////
+Vector create_large_vec()
+{
+    Vector vec(1'000'000);
+
+    for(size_t i = 0; i < vec.size(); ++i)
+        vec[i] = i;
+
+    return vec;
+}
+
+TEST_CASE("large vec")
+{   
+    //           r-value  
+    Vector vec = create_large_vec(); 
+
+    CHECK(vec.size() == 1'000'000);
+}
