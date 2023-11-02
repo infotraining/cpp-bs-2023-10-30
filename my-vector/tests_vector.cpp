@@ -37,10 +37,10 @@ TEST_CASE("vector - range-based for")
 
 TEST_CASE("vector - push_back")
 {
-    Vector vec = {1, 2, 3, 4};
+    Vector vec = {1, 2, 3, 4, 5};
 
-    vec.push_back(5);
     vec.push_back(6);
+    vec.push_back(7);
 
     CHECK(vec.size() == 7);
     CHECK(vec == Vector{1, 2, 3, 4, 5, 6, 7});

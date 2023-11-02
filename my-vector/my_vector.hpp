@@ -83,6 +83,16 @@ namespace Training
 
             return size_ == other.size_ && std::equal(items_, items_ + size_, other.items_);
         }
+
+        void push_back(int new_item)
+        {
+            int* temp_items_ = new int[size_ + 1];
+            std::copy(begin(), end(), temp_items_);
+            temp_items_[size_] = new_item;
+            delete [] items_;
+            items_ = temp_items_;
+            size_ = size_ + 1;
+        }
     };
 } // namespace Training
 
