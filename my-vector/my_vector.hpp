@@ -18,19 +18,15 @@ namespace Training
 
         Vector(size_t size)
             : size_{size}
+            , items_{new int[size_]}
         {
-            items_ = new int[size_]; // dynamic allocation
-
-            // fill with zeros
-            for (size_t i = 0; i < size_; ++i)
-                items_[i] = 0;
+            std::fill_n(begin(), size_, 0);
         }
 
         Vector(std::initializer_list<int> lst)
             : size_{lst.size()}
+            , items_{new int[size_]}
         {
-            items_ = new int[size_];
-
             std::copy(lst.begin(), lst.end(), items_);
         }
 
