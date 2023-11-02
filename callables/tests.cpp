@@ -265,7 +265,6 @@ TEST_CASE("generic lambdas")
 
 	CHECK(cmp_by_size(vec_b, std::string("abcd")));
 
-
 	std::vector<std::string> words = { "one", "two", "fourty-two", "zero", "1" };
 
 	std::sort(words.begin(), words.end(), [](const auto& a, const auto& b) { return a.size() > b.size(); });

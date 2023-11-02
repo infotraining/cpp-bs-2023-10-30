@@ -42,6 +42,7 @@ add_subdirectory(functions)
 add_subdirectory(oop)
 add_subdirectory(polymorphism)
 add_subdirectory(callables)
+add_subdirectory(my-vector)
 
 add_subdirectory(_exercises/ex_primes)
 add_subdirectory(_exercises/ex_palindromes)
