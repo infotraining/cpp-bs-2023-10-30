@@ -84,6 +84,11 @@ namespace MyMath
         return Vector2D(v.x() * a, v.y() * a);
     }
 
+    inline double operator*(const Vector2D& va, const Vector2D& vb)
+    {
+        return va.x() * vb.x() + va.y() * vb.y();
+    }
+
 } // namespace MyMath
 
 #endif // VECTOR2D_HPP

@@ -91,12 +91,12 @@ TEST_CASE("Vector2D - operators")
         REQUIRE(vec == Vector2D{-1.0, -2.0});
     }
 
-    // SECTION("multiplication")
-    // {
-    // 	double scalar = vec1 * vec2;
+    SECTION("multiplication")
+    {
+    	double scalar = vec1 * vec2;
 
-    // 	REQUIRE(scalar == Approx(3.0));
-    // }
+    	REQUIRE(scalar == Approx(3.0));
+    }
 
     SECTION("multiplication by double")
     {
