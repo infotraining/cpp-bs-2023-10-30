@@ -30,6 +30,31 @@ namespace Training
             std::copy(lst.begin(), lst.end(), items_);
         }
 
+        // copy constructor
+        Vector(const Vector& source)
+            : size_{source.size()}
+            , items_{new int[source.size()]}
+        {
+            std::copy(source.begin(), source.end(), items_);
+        }
+
+        // copy assignment
+        Vector& operator=(const Vector& source)
+        {
+            if (this != &source) // avoiding self-assignment
+            {
+                // alloc new array & copy all items from source
+                int* items_temp = new int[source.size()];
+                std::copy(source.begin(), source.end(), items_temp);
+
+                delete[] items_;       // release old array
+                items_ = items_temp;   // assign new array
+                size_ = source.size(); // assign new size
+            }
+
+            return *this;
+        }
+
         ~Vector() // destructor
         {
             delete[] items_;
@@ -89,7 +114,7 @@ namespace Training
             int* temp_items_ = new int[size_ + 1];
             std::copy(begin(), end(), temp_items_);
             temp_items_[size_] = new_item;
-            delete [] items_;
+            delete[] items_;
             items_ = temp_items_;
             size_ = size_ + 1;
         }

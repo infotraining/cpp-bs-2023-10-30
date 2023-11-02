@@ -45,3 +45,28 @@ TEST_CASE("vector - push_back")
     CHECK(vec.size() == 7);
     CHECK(vec == Vector{1, 2, 3, 4, 5, 6, 7});
 }
+
+TEST_CASE("vector - copy")
+{
+    Vector vec = {1, 2, 3, 4, 5};
+
+    SECTION("copy constructor")
+    {
+        Vector backup = vec; // copy-constructor
+        //Vector backup(vec);  // copy-constructor
+
+        CHECK(vec == Vector{1, 2, 3, 4, 5});
+        CHECK(backup == Vector{1, 2, 3, 4, 5});
+    }
+
+    SECTION("copy assignment")
+    {
+        Vector temp = {100, 101};
+
+        vec = temp; // copy-assignment
+
+        CHECK(vec == temp);
+
+        vec = vec; // self-assignment
+    }
+}
