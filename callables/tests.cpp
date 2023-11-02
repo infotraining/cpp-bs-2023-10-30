@@ -251,3 +251,26 @@ TEST_CASE("storing callables")
 		CHECK(is_even_f(10));
 	}
 }
+
+///////////////////////////////////////////////////////////////////
+// Generic lambdas
+
+TEST_CASE("generic lambdas")
+{
+	auto cmp_by_size = [](const auto& a, const auto& b) { return a.size() < b.size(); };
+
+	std::vector vec_a{1, 2, 3};
+	std::vector vec_b{1, 2};
+	CHECK(cmp_by_size(vec_a, vec_b) == false);
+
+	CHECK(cmp_by_size(vec_b, std::string("abcd")));
+
+
+	std::vector<std::string> words = { "one", "two", "fourty-two", "zero", "1" };
+
+	std::sort(words.begin(), words.end(), [](const auto& a, const auto& b) { return a.size() > b.size(); });
+	
+	for (const auto& w : words)
+        std::cout << w << " ";
+    std::cout << "\n";
+}
