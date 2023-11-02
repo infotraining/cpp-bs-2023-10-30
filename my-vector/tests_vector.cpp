@@ -174,3 +174,29 @@ TEST_CASE("large vec")
 
     CHECK(vec.size() == 1'000'000);
 }
+
+class Data
+{
+    std::string name;
+    Vector vec;
+
+public:
+    Data(const std::string& n, const Vector& v)
+        : name{n}, vec{v}
+    {}
+
+    void print() const
+    {
+        std::cout << name << " : { ";
+        for(const auto& item : vec)
+            std::cout << item << " ";
+        std::cout << "}\n";
+    }
+};
+
+TEST_CASE("Data")
+{
+    Data d1{"d1", {1, 2, 3, 4}};
+
+    d1.print();
+}
