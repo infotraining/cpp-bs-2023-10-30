@@ -1,62 +1,8 @@
+#include "my_vector.hpp"
+
 #include <catch2/catch_test_macros.hpp>
-#include <algorithm>
 
-class Vector
-{
-private:
-    size_t size_;
-    int* items_;
-
-public:
-    Vector(size_t size)
-        : size_{size}
-    {
-        items_ = new int[size_]; // dynamic allocation
-
-        // fill with zeros
-        for(size_t i = 0; i < size_; ++i)
-            items_[i] = 0;
-    }
-
-    Vector(std::initializer_list<int> lst) : size_{lst.size()}
-    {
-        items_ = new int[size_];
-
-        std::copy(lst.begin(), lst.end(), items_);
-    }
-
-    ~Vector() // destructor
-    {
-        delete[] items_;
-    }
-
-    size_t size() const 
-    {
-        return size_;
-    }
-
-    int& operator[](size_t index) // read-write
-    {
-        return items_[index];
-    }
-
-    const int& operator[](size_t index) const // read-only
-    {
-        return items_[index];
-    }
-
-    bool operator==(const Vector& other) const
-    {
-        if (size_ != other.size())
-            return false;
-
-        for(size_t i = 0; i < size_; ++i)
-            if (items_[i] != other[i])
-                return false;
-
-        return true;
-    }
-};
+using namespace Training;
 
 TEST_CASE("vector - indexing")
 {
@@ -78,4 +24,13 @@ TEST_CASE("vector - init with {}")
     // CHECK(vec[4] == 5);
 
     CHECK(vec == Vector{1, 2, 3, 4, 5});
+}
+
+TEST_CASE("vector - range-based for")
+{
+    const Vector vec = {1, 2, 3, 4, 5};
+
+    for (const auto& item : vec)
+        std::cout << item << " ";
+    std::cout << "\n";
 }
