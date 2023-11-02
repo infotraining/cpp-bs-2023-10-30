@@ -168,7 +168,7 @@ TEST_CASE("captures")
     {
         int threshold = 200;
         auto pos = std::find_if(vec.begin(), vec.end(), [threshold](int n) { return n > threshold; });
-        auto pos = std::find_if(vec.begin(), vec.end(), [=](int n) { return n > threshold; }); // [=] - all by value
+        //auto pos = std::find_if(vec.begin(), vec.end(), [=](int n) { return n > threshold; }); // [=] - all by value
 
         CHECK(*pos == 665);
     }
@@ -178,7 +178,7 @@ TEST_CASE("captures")
 		std::vector<int> vec_gt_100;
 
 		std::for_each(vec.begin(), vec.end(), [&vec_gt_100](int n) { if (n > 100) vec_gt_100.push_back(n); });
-		std::for_each(vec.begin(), vec.end(), [&](int n) { if (n > 100) vec_gt_100.push_back(n); }); // [&] - all by ref
+		//std::for_each(vec.begin(), vec.end(), [&](int n) { if (n > 100) vec_gt_100.push_back(n); }); // [&] - all by ref
 
 		CHECK(vec_gt_100 == std::vector{665, 543, 236});
     }
@@ -189,8 +189,8 @@ TEST_CASE("captures")
 		std::vector<int> vec_gt_threshold;
 
 		std::for_each(vec.begin(), vec.end(), [&vec_gt_threshold, threshold](int n) { if (n > threshold) vec_gt_threshold.push_back(n); });
-		std::for_each(vec.begin(), vec.end(), [&, threshold](int n) { if (n > threshold) vec_gt_threshold.push_back(n); });
-		std::for_each(vec.begin(), vec.end(), [=, &vec_gt_threshold](int n) { if (n > threshold) vec_gt_threshold.push_back(n); });
+		//std::for_each(vec.begin(), vec.end(), [&, threshold](int n) { if (n > threshold) vec_gt_threshold.push_back(n); });
+		//std::for_each(vec.begin(), vec.end(), [=, &vec_gt_threshold](int n) { if (n > threshold) vec_gt_threshold.push_back(n); });
 
 		CHECK(vec_gt_threshold == std::vector{665, 543, 236});
     }
