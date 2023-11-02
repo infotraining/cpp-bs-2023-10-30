@@ -21,6 +21,8 @@ namespace Training
             , items_{new int[size_]}
         {
             std::fill_n(begin(), size_, 0);
+
+            print();
         }
 
         Vector(std::initializer_list<int> lst)
@@ -29,10 +31,7 @@ namespace Training
         {
             std::copy(lst.begin(), lst.end(), items_);
 
-            std::cout << "Vector({ ";
-            for(const auto& item : *this)
-                std::cout << item << " ";
-            std::cout << "})\n";
+            print();
         }
 
         // copy constructor
@@ -41,11 +40,8 @@ namespace Training
             , items_{new int[source.size()]}
         {
             std::copy(source.begin(), source.end(), items_);
-
-            std::cout << "Vector(cc: { ";
-            for(const auto& item : *this)
-                std::cout << item << " ";
-            std::cout << "})\n";
+            
+            print("cc");
         }
 
         // copy assignment
@@ -62,6 +58,8 @@ namespace Training
                 size_ = source.size(); // assign new size
             }
 
+            print("cc=");
+
             return *this;
         }
 
@@ -72,10 +70,7 @@ namespace Training
             source.size_ = 0;
             source.items_ = nullptr;
 
-            std::cout << "Vector(mv: { ";
-            for(const auto& item : *this)
-                std::cout << item << " ";
-            std::cout << "})\n";
+            print("mv");
         }
 
         // move-assignment - C++11
@@ -90,11 +85,14 @@ namespace Training
                 source.items_ = nullptr;
             }
 
+            print("mv=");
+
             return *this;
         }
 
         ~Vector() // destructor
         {
+            print("destructor");
             delete[] items_;
         }
 
@@ -135,15 +133,6 @@ namespace Training
 
         bool operator==(const Vector& other) const
         {
-            // if (size_ != other.size())
-            //     return false;
-
-            // for(size_t i = 0; i < size_; ++i)
-            //     if (items_[i] != other[i])
-            //         return false;
-
-            // return true;
-
             return size_ == other.size_ && std::equal(items_, items_ + size_, other.items_);
         }
 
@@ -155,6 +144,14 @@ namespace Training
             delete[] items_;
             items_ = temp_items_;
             size_ = size_ + 1;
+        }
+    private:
+        void print(const std::string& desc = "") const
+        {
+            std::cout << "Vector(" << (desc.empty() ? "" : (desc + ": ")) << "{ ";
+            for(const auto& item : *this)
+                std::cout << item << " ";
+            std::cout << "})\n"; 
         }
     };
 } // namespace Training
