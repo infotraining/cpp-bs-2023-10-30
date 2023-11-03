@@ -15,6 +15,8 @@ namespace Drawing
             y += dy;
         }
 
+        bool operator==(const Point& other) const = default;
+
         friend std::ostream& operator<<(std::ostream& out, const Point& pt)
         {
             out << "Point{" << pt.x << ", " << pt.y << "}";

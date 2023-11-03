@@ -13,4 +13,10 @@ TEST_CASE("polymorphism")
     shp.draw();
     shp.move(12, 55);
     shp.draw();
+
+    Drawing::Rectangle rect{100, 200, 30, 80};
+    rect.draw();
+    rect.set_height(500);
+    rect.move(10, 44);
+    rect.draw();
 }
