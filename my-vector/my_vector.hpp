@@ -131,6 +131,22 @@ namespace Training
             return items_[index];
         }
 
+        int& at(size_t index)
+        {
+            if (index >= size_)
+                throw std::out_of_range("Index out of range");
+
+            return items_[index];
+        }
+
+        const int& at(size_t index) const
+        {
+            if (index >= size_)
+                throw std::out_of_range("Index out of range");
+
+            return items_[index];
+        }
+
         bool operator==(const Vector& other) const
         {
             return size_ == other.size_ && std::equal(items_, items_ + size_, other.items_);

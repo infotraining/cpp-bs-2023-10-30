@@ -1,6 +1,8 @@
 #include "my_vector.hpp"
 
 #include <catch2/catch_test_macros.hpp>
+#include <exception>
+#include <stdexcept>
 
 using namespace Training;
 
@@ -199,4 +201,68 @@ TEST_CASE("Data")
     Data d1{"d1", {1, 2, 3, 4}};
 
     d1.print();
+}
+
+////////////////////////////////////////////////////////////////////
+// Exceptions
+
+int divide(int a, int b)
+{
+    if (b == 0)
+        throw std::invalid_argument("Division by zero");
+
+    std::cout << "divide(" << a << ", " << b << ")\n";
+
+    return a / b;
+}
+
+void wrapper()
+{
+    int result = divide(1, 0);
+
+    std::cout << "result: " << result << "\n";
+}
+
+TEST_CASE("exceptions")
+{   
+    try
+    {
+         wrapper();
+    }
+    catch(const std::invalid_argument& e)
+    {
+        std::cerr << e.what() << '\n';
+    }   
+    catch(const std::exception& e)
+    {
+        std::cerr << "std::exception: " << e.what() << '\n';
+    }
+    catch(...)
+    {
+        std::cout << "Caught an error!!!\n";
+    }
+}
+
+TEST_CASE("vector - exceptions")
+{
+    SECTION("std::vector")
+    {
+        std::vector<int> vec = {1, 2, 3};
+
+        try
+        {
+            int& item = vec.at(10);
+        }
+        catch(const std::out_of_range& e)
+        {
+            std::cerr << e.what() << '\n';
+        }                        
+    }
+
+    SECTION("Vector")
+    {
+        const Vector vec = {1, 2, 3};
+
+        CHECK_THROWS_AS(vec.at(10), std::out_of_range);
+    }
 }
