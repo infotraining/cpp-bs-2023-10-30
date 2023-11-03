@@ -1,5 +1,9 @@
 # Szkolenie - Programowanie w C++ #
 
+## Ankieta
+
+* https://forms.gle/UM6cYLfdUfBLhfcE7
+
 ## Dokumentacja
 
 * https://infotraining.bitbucket.io/cpp-bs
