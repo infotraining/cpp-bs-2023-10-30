@@ -9,10 +9,10 @@ using namespace std::literals;
 
 TEST_CASE("inheritance")
 {
-    Drawing::Shape shp{10, 20};
-    shp.draw();
-    shp.move(12, 55);
-    shp.draw();
+    // Drawing::Shape shp{10, 20};
+    // shp.draw();
+    // shp.move(12, 55);
+    // shp.draw();
 
     Drawing::Rectangle rect{100, 200, 30, 80};
     rect.draw();
@@ -42,8 +42,8 @@ TEST_CASE("late binding")
     rect.move(10, 44);
     rect.draw();
 
-    Shape shp = rect; // downsizing
-    shp.draw();
+    // Shape shp = rect; // downsizing
+    // shp.draw();
 
     Shape& shp_ref = rect;
     shp_ref.draw();
@@ -94,4 +94,30 @@ TEST_CASE("graphics doc")
     doc.add_shape(std::move(ln));
 
     doc.render();
+}
+
+TEST_CASE("inheritance & casting")
+{
+    using namespace Drawing;
+
+    Rectangle rect{100, 200, 300, 400};
+    Circle crc{100, 200, 80};
+
+    Shape* shp = &rect;
+    shp->draw();
+
+    SECTION("unsafe but fast")
+    {
+        Rectangle* ptr_rect = static_cast<Rectangle*>(shp);
+        ptr_rect->set_width(100);
+    }
+
+    SECTION("safe but slower")
+    {
+        Rectangle* ptr_rect = dynamic_cast<Rectangle*>(shp);
+        if (ptr_rect)
+            ptr_rect->set_width(100);
+    }
+
+    shp->draw();
 }

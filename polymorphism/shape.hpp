@@ -8,27 +8,34 @@
 
 namespace Drawing
 {
+    // abstract class - interface
     class Shape
+    {
+    public:
+        virtual ~Shape() = default;
+        virtual void move(int dx, int dy) = 0;
+        virtual void draw() const = 0;
+    };
+
+    class ShapeBase : public Shape // class abstract
     {
         Point coord_;
 
     public:
-        Shape(int x = 0, int y = 0)
+        ShapeBase(int x = 0, int y = 0)
             : coord_{x, y}
         {
         }
 
-        Shape(Point pt)
+        ShapeBase(Point pt)
             : coord_{pt}
         {
         }
 
-        virtual void move(int dx, int dy)
+        void move(int dx, int dy) override
         {
             coord_.translate(dx, dy);
         }
-
-        virtual void draw() const;
 
         Point coord() const
         {
@@ -36,19 +43,19 @@ namespace Drawing
         }
     };
 
-    class Rectangle : public Shape // is-a-kind-of
+    class Rectangle : public ShapeBase // is-a-kind-of
     {
         uint32_t width_, height_;
 
     public:
         Rectangle(int x = 0, int y = 0, uint32_t w = 0, uint32_t h = 0)
-            : Shape(x, y) // base-class constructor
+            : ShapeBase(x, y) // base-class constructor
             , width_(w)
             , height_(h)
         { }
 
         Rectangle(Point pt, uint32_t w, uint32_t h)
-            : Shape(pt)
+            : ShapeBase(pt)
             , width_(w)
             , height_(h)
         { }
@@ -81,18 +88,18 @@ namespace Drawing
         }
     };
 
-    class Circle : public Shape
+    class Circle : public ShapeBase
     {
         uint32_t radius_;
 
     public:
         Circle(int x = 0, int y = 0, uint32_t r = 0)
-            : Shape(x, y)
+            : ShapeBase(x, y)
             , radius_(r)
         { }
 
         Circle(Point pt, uint32_t r)
-            : Shape(pt)
+            : ShapeBase(pt)
             , radius_(r)
         { }
 
@@ -113,13 +120,13 @@ namespace Drawing
         }
     };
 
-    class Line : public Shape
+    class Line : public ShapeBase
     {
         Point end_coord_;
 
     public:
         Line(int x1 = 0, int y1 = 0, int x2 = 0, int y2 = 0)
-            : Shape(x1, y1)
+            : ShapeBase(x1, y1)
             , end_coord_{x2, y2}
         { }
 
@@ -134,7 +141,7 @@ namespace Drawing
 
         void move(int dx, int dy) override
         {
-            Shape::move(dx, dy); // call of move from base class
+            ShapeBase::move(dx, dy); // call of move from base class
             end_coord_.translate(dx, dy);
         }
     };
