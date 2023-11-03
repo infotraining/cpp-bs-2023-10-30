@@ -1,6 +1,9 @@
 #ifndef SHAPE_HPP
 #define SHAPE_HPP
 
+#include <vector>
+#include <memory>
+
 #include "point.hpp"
 
 namespace Drawing
@@ -133,6 +136,24 @@ namespace Drawing
         {
             Shape::move(dx, dy); // call of move from base class
             end_coord_.translate(dx, dy);
+        }
+    };
+
+    class GraphicsDocument
+    {
+        std::vector<std::unique_ptr<Shape>> shapes_;
+    public:
+        GraphicsDocument() = default;
+
+        void add_shape(std::unique_ptr<Shape> shp)
+        {
+            shapes_.push_back(std::move(shp));
+        }
+
+        void render() const
+        {
+            for(const auto& shp : shapes_)
+                shp->draw();
         }
     };
 
