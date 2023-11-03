@@ -31,3 +31,27 @@ TEST_CASE("polymorphism")
     ln.move(100, 200);
     ln.draw();
 }
+
+TEST_CASE("late binding")
+{
+    using namespace Drawing;
+
+    Rectangle rect{100, 200, 30, 80};
+    rect.draw();
+    rect.set_height(500);
+    rect.move(10, 44);
+    rect.draw();
+
+    Shape shp = rect; // downsizing
+    shp.draw();
+
+    Shape& shp_ref = rect;
+    shp_ref.draw();
+
+    Shape* ptr_shp = &rect;
+    ptr_shp->draw();
+
+    Circle crc{600, 220, 100};
+    ptr_shp = &crc;
+    ptr_shp->draw();
+}

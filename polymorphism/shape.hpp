@@ -20,12 +20,12 @@ namespace Drawing
         {
         }
 
-        void move(int dx, int dy)
+        virtual void move(int dx, int dy)
         {
             coord_.translate(dx, dy);
         }
 
-        void draw() const;
+        virtual void draw() const;
 
         Point coord() const
         {
@@ -70,7 +70,7 @@ namespace Drawing
             height_ = h;
         }
 
-        void draw() const
+        void draw() const override
         {
             std::cout << "Drawing Rectangle at " << coord()
                       << " with width: " << width_
@@ -93,7 +93,7 @@ namespace Drawing
             , radius_(r)
         { }
 
-        void draw() const
+        void draw() const override
         {
             std::cout << "Drawing Circle at " << coord()
                       << " with radius: " << radius_ << "\n";
@@ -124,12 +124,12 @@ namespace Drawing
             : Line(start.x, start.y, end.x, end.y) // delegating constructors - C++11
         {}
 
-        void draw() const
+        void draw() const override
         {
             std::cout << "Drawing Line from " << coord() << " to " << end_coord_ << "\n";
         }
 
-        void move(int dx, int dy)
+        void move(int dx, int dy) override
         {
             Shape::move(dx, dy); // call of move from base class
             end_coord_.translate(dx, dy);
