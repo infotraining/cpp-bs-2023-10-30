@@ -19,4 +19,10 @@ TEST_CASE("polymorphism")
     rect.set_height(500);
     rect.move(10, 44);
     rect.draw();
+
+    Drawing::Circle crc{100, 200, 50};
+    crc.draw();
+    crc.set_radius(100);
+    crc.move(100, 300);
+    crc.draw();
 }
