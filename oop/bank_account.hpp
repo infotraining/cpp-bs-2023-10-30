@@ -2,9 +2,9 @@
 #define BANK_ACCOUNT_HPP
 
 #include <cassert>
+#include <iostream>
 #include <string>
 #include <vector>
-#include <iostream>
 
 namespace Banking
 {
@@ -29,6 +29,20 @@ namespace Banking
     // {
     //     return !(t1 == t2);
     // }
+
+    struct InsufficientFundsException : public std::runtime_error
+    {
+        uint32_t account_id;
+        double amount;
+        double current_balance;
+
+        InsufficientFundsException(uint32_t id, double amount, double balance)
+            : std::runtime_error("Insufficient funds for account: " + std::to_string(id))
+            , account_id{id}
+            , amount{amount}
+            , current_balance{balance}
+        { }
+    };
 
     class BankAccount
     {
@@ -75,13 +89,17 @@ namespace Banking
         void withdraw(double amount)
         {
             assert(amount > 0);
+
+            if (amount > balance_)
+                throw InsufficientFundsException{id_, amount, balance_};
+
             balance_ -= amount;
             history_.push_back(Transaction{id_, TransactionType::withdraw, amount});
         }
 
         void pay_interest(uint32_t days)
         {
-            double interest = balance_ * interest_rate_*  (days / 365.0);
+            double interest = balance_ * interest_rate_ * (days / 365.0);
             balance_ += interest;
         }
 
@@ -97,8 +115,8 @@ namespace Banking
 
         friend std::ostream& operator<<(std::ostream& out, const BankAccount& account)
         {
-            return out << "BankAccount{ID: "  << account.id_ 
-                       << "; Owner: " << account.owner_ 
+            return out << "BankAccount{ID: " << account.id_
+                       << "; Owner: " << account.owner_
                        << "; Balance: " << account.balance_ << "}";
         }
     };

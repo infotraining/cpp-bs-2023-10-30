@@ -97,6 +97,24 @@ TEST_CASE("BankAccount - interests")
 	CHECK(account.balance() == 1100.0);
 }
 
+TEST_CASE("BankAccount - exceptions")
+{
+    BankAccount account{1, "AN", 100.0};
+
+    try
+    {
+        account.withdraw(1'000'000);
+    }
+    catch(const InsufficientFundsException& e)
+    {
+        std::cerr << e.what() << "\n";
+
+        CHECK(e.account_id == 1);
+        CHECK(e.amount == 1'000'000);
+        CHECK(e.current_balance == 100.0);
+    }
+}
+
 TEST_CASE("operator ==")
 {
 	Transaction t1{1, TransactionType::deposit, 100.0};
