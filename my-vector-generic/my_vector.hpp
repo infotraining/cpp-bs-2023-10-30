@@ -5,43 +5,40 @@
 #include <iostream>
 
 namespace Training
-{ 
+{
+    template <typename T>
     class Vector
     {
     private:
         size_t size_;
-        int* items_;
+        T* items_;
 
     public:
-        using iterator = int*; // typedef int* iterator;
-        using const_iterator = const int*;
+        using iterator = T*; // typedef int* iterator;
+        using const_iterator = const T*;
+        using reference = T&;
+        using const_reference = const T&;
 
         Vector(size_t size)
             : size_{size}
-            , items_{new int[size_]} // acquisition of resource
+            , items_{new T[size_]} // acquisition of resource
         {
-            std::fill_n(begin(), size_, 0);
-
-            print();
+            std::fill_n(begin(), size_, T{});
         }
 
-        Vector(std::initializer_list<int> lst)
+        Vector(std::initializer_list<T> lst)
             : size_{lst.size()}
-            , items_{new int[size_]}
+            , items_{new T[size_]}
         {
             std::copy(lst.begin(), lst.end(), items_);
-
-            print();
         }
 
         // copy constructor
         Vector(const Vector& source)
             : size_{source.size()}
-            , items_{new int[source.size()]}
+            , items_{new T[source.size()]}
         {
             std::copy(source.begin(), source.end(), items_);
-            
-            print("cc");
         }
 
         // copy assignment
@@ -50,15 +47,13 @@ namespace Training
             if (this != &source) // avoiding self-assignment
             {
                 // alloc new array & copy all items from source
-                int* items_temp = new int[source.size()];
+                T* items_temp = new T[source.size()];
                 std::copy(source.begin(), source.end(), items_temp);
 
                 delete[] items_;       // release old array
                 items_ = items_temp;   // assign new array
                 size_ = source.size(); // assign new size
             }
-
-            print("cc=");
 
             return *this;
         }
@@ -69,8 +64,6 @@ namespace Training
         {
             source.size_ = 0;
             source.items_ = nullptr;
-
-            print("mv");
         }
 
         // move-assignment - C++11
@@ -85,14 +78,11 @@ namespace Training
                 source.items_ = nullptr;
             }
 
-            print("mv=");
-
             return *this;
         }
 
         ~Vector() // destructor
         {
-            print("destructor");
             delete[] items_; // release is resource
         }
 
@@ -121,17 +111,17 @@ namespace Training
             return items_ + size_;
         }
 
-        int& operator[](size_t index) // read-write
+        reference operator[](size_t index) // read-write
         {
             return items_[index];
         }
 
-        const int& operator[](size_t index) const // read-only
+        const_reference operator[](size_t index) const // read-only
         {
             return items_[index];
         }
 
-        int& at(size_t index)
+        reference at(size_t index)
         {
             if (index >= size_)
                 throw std::out_of_range("Index out of range");
@@ -139,7 +129,7 @@ namespace Training
             return items_[index];
         }
 
-        const int& at(size_t index) const
+        const_reference at(size_t index) const
         {
             if (index >= size_)
                 throw std::out_of_range("Index out of range");
@@ -152,22 +142,14 @@ namespace Training
             return size_ == other.size_ && std::equal(items_, items_ + size_, other.items_);
         }
 
-        void push_back(int new_item)
+        void push_back(const T& new_item)
         {
-            int* temp_items_ = new int[size_ + 1];
+            T* temp_items_ = new T[size_ + 1];
             std::copy(begin(), end(), temp_items_);
             temp_items_[size_] = new_item;
             delete[] items_;
             items_ = temp_items_;
             size_ = size_ + 1;
-        }
-    private:
-        void print(const std::string& desc = "") const
-        {
-            std::cout << "Vector(" << (desc.empty() ? "" : (desc + ": ")) << "{ ";
-            for(const auto& item : *this)
-                std::cout << item << " ";
-            std::cout << "})\n"; 
         }
     };
 } // namespace Training

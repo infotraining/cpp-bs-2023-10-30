@@ -43,6 +43,7 @@ add_subdirectory(oop)
 add_subdirectory(polymorphism)
 add_subdirectory(callables)
 add_subdirectory(my-vector)
+add_subdirectory(my-vector-generic)
 add_subdirectory(templates)
 
 add_subdirectory(_exercises/ex_primes)

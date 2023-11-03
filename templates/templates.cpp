@@ -158,3 +158,57 @@ TEST_CASE("my_find_if")
 
     auto pos = my_find_if(vec.begin(), vec.end(), [](int n) { return n > 30; });
 }
+
+/////////////////////////////////////////////////////////
+// class templates
+
+template <typename T1, typename T2>
+struct Pair
+{
+    T1 first;
+    T2 second;
+
+    Pair(T1 f, T2 s)
+        : first(std::move(f))
+        , second(std::move(s))
+    { }
+
+	void print() const;
+};
+
+template <typename T1, typename T2>
+Pair<T1, T2> my_make_pair(T1 f, T2 s)
+{
+	return Pair<T1, T2>(f, s);
+}
+
+template <typename T1, typename T2>
+std::ostream& operator<<(std::ostream& out, const Pair<T1, T2>& p)
+{
+	return out << "Pair{" << p.first << ", " << p.second << "}";	
+}
+
+template <typename T1, typename T2>
+void Pair<T1, T2>::print() const
+{
+	std::cout << "Pair(" << first << ", " << second << ")\n";
+}
+
+TEST_CASE("class templates")
+{
+	Pair<int, double> p1{1, 3.14};
+
+	CHECK(p1.first == 1);
+	CHECK(p1.second == 3.14);
+
+	p1.print();
+
+	Pair<std::string, int> p2{"abc"s, 1};
+
+	auto p3 = my_make_pair(1, 3.14);;
+
+	// since C++17
+	Pair p4{1, 3.14};
+
+	std::cout << "p4: " << p4 << "\n";
+}
