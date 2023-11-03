@@ -25,4 +25,9 @@ TEST_CASE("polymorphism")
     crc.set_radius(100);
     crc.move(100, 300);
     crc.draw();
+
+    Drawing::Line ln{Drawing::Point{10, 20}, Drawing::Point{30, 40}};
+    ln.draw();
+    ln.move(100, 200);
+    ln.draw();
 }
