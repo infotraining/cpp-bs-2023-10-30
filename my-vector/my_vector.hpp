@@ -18,7 +18,7 @@ namespace Training
 
         Vector(size_t size)
             : size_{size}
-            , items_{new int[size_]}
+            , items_{new int[size_]} // acquisition of resource
         {
             std::fill_n(begin(), size_, 0);
 
@@ -93,7 +93,7 @@ namespace Training
         ~Vector() // destructor
         {
             print("destructor");
-            delete[] items_;
+            delete[] items_; // release is resource
         }
 
         size_t size() const
